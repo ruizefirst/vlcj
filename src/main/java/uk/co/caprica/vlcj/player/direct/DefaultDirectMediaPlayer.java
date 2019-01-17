@@ -26,7 +26,6 @@ import java.util.concurrent.Semaphore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import sun.nio.ch.DirectBuffer;
 import uk.co.caprica.vlcj.binding.LibVlc;
 import uk.co.caprica.vlcj.binding.internal.libvlc_display_callback_t;
 import uk.co.caprica.vlcj.binding.internal.libvlc_instance_t;
@@ -231,7 +230,7 @@ public class DefaultDirectMediaPlayer extends DefaultMediaPlayer implements Dire
             for(int i = 0; i < bufferFormat.getPlaneCount(); i ++ ) {
                 ByteBuffer buffer = ByteBufferFactory.allocateAlignedBuffer(pitchValues[i] * lineValues[i]);
                 nativeBuffers[i] = buffer;
-                pointers[i] = Pointer.createConstant(((DirectBuffer) buffer).address());
+                pointers[i] = Pointer.createConstant((ByteBufferFactory.getAddress(buffer)));
             }
             logger.trace("format finished");
             return pitchValues.length;
